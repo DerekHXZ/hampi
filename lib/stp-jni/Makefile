@@ -4,6 +4,10 @@
 #
 # NOTE: You must run the target that is suitable for your platform
 
+JAVA_HOME_RAW := $(shell /usr/libexec/java_home -v 1.6) 
+JAVA_HOME := $(strip $(JAVA_HOME_RAW))
+UNAME := $(shell uname)
+
 LONG_BITS := $(shell getconf LONG_BIT)
 
 all: 
@@ -40,12 +44,12 @@ all32:
 	@cp 32bit/libstp.a ../
 
 all64:
-	g++ -Wall stp/STPJNI.c -o 64bit/libSTPJNI.so -shared -Iinclude -I/usr/lib/jvm/java-6-sun/include  -I/usr/lib/jvm/java-6-sun/include/linux -L64bit -lstp -fPIC  
+	g++ -Wall stp/STPJNI.c -o 64bit/$(UNAME)/libSTPJNI.so -shared -Iinclude -I$(JAVA_HOME)/include  -I$(JAVA_HOME)/include/$(UNAME) -L64bit/$(UNAME) -lboost_system -lstp -fPIC  
 	find . -name '*.java' -exec javac -nowarn -cp .:../junit.jar -g -source 1.5 {} \;
 	jar -cvf STPJNI.jar stp/*.class stp/*.java
 	@cp STPJNI.jar ../
-	@cp 64bit/libSTPJNI.so ../
-	@cp 64bit/libstp.a ../
+	@cp 64bit/$(UNAME)/libSTPJNI.so ../
+	@cp 64bit/$(UNAME)/libstp.a ../
 
 clean32:
 	rm -rf *~ stp/*.class tests/*.class stp/*.o tests/*.so 32bit/libSTPJNI.so 
