@@ -13,7 +13,6 @@
 /lib/cfganalyzer-2007-12-03/bin/cfganalyzer
 
 # /lib/cfganalyzer-2007-12-03/obj/
-/lib/cfganalyzer-2007-12-03/obj/*.cmi
 /lib/cfganalyzer-2007-12-03/obj/*.cmx
 
 # /lib/cfganalyzer-2007-12-03/src/
